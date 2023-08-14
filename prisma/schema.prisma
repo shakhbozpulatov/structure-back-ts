@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+}
+
+enum Currency {
+  USD
+  UZS
+}
+
+model User {
+  id          Int              @id @default(autoincrement())
+  phoneNumber String           @unique @map("phone_number")
+  status      Status           @default(INACTIVE)
+  balance     Float
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @updatedAt @map("updated_at")
+  choosen     Advertisements[]
+  // 
+  Like        Like[]
+}
+
+model Advertisements {
+  id          Int                     @id @default(autoincrement())
+  numberRooms Int                     @map("number_rooms")
+  floor       Int
+  images      String[]
+  area        String
+  price       Float                   @default(0)
+  currency    Currency                @default(USD)
+  status      Status                  @default(INACTIVE)
+  nearTo      String                  @map("near_to")
+  description String
+  latitude    Float
+  longtitude  Float
+  // 
+  categories  AdvertisementCategory[]
+  // 
+  userId      Int
+  User        User                    @relation(fields: [userId], references: [id])
+  // 
+  Like        Like[]
+  // 
+  createdAt   DateTime                @default(now()) @map("created_at")
+  updatedAt   DateTime                @updatedAt @map("updated_at")
+}
+
+model Category {
+  id             Int                     @id @default(autoincrement())
+  name           String
+  advertisements AdvertisementCategory[]
+}
+
+model AdvertisementCategory {
+  advertisementId Int
+  advertisement   Advertisements @relation(fields: [advertisementId], references: [id])
+  categoryId      Int
+  category        Category       @relation(fields: [categoryId], references: [id])
+
+  @@id([advertisementId, categoryId])
+}
+
+model Like {
+  advertisementId Int
+  advertisement   Advertisements @relation(fields: [advertisementId], references: [id])
+  userId          Int
+  user            User           @relation(fields: [userId], references: [id])
+
+  @@id([advertisementId, userId])
+}
