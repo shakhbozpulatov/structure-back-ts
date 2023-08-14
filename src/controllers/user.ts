@@ -10,6 +10,7 @@ type IUserBody = {
     password: string
 }
 
+// check
 export class UsersController {
   constructor() {}
 
