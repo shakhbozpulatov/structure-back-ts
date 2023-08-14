@@ -2,7 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "target": "ESNext",
-    "lib": ["ESNext", "ESNext.AsyncIterable"],
+    "lib": ["ESNext", "ESNext.AsyncIterable", "DOM"],
     "typeRoots": ["node_modules/@types"],
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,

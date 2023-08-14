@@ -17,9 +17,8 @@ export class UsersRouter {
   }
 
   public initRoutes = () => {
-    this.router.get("/", function (_, res: Response) {
-      res.json({ message: true });
-    });
-    this.router.post("/", this.controller.CREATE_USER);
+    this.router.post("/register", this.controller.REGISTER);
+    // this.router.post("/login", this.controller.LOGIN);
+    // this.router.post("/confirm", this.controller.CONFIRM);
   };
 }
